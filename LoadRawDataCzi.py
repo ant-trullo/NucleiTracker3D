@@ -44,11 +44,11 @@ class LoadRawDataCzi:
             pix_size_xy, pix_size_z  =  ServiceWidgets.InputPixSize.get_vals()
 
         if analysis_folder is None:
-            ch_red_green  =  ServiceWidgets.SetColorChannel.getChannels(raw.channel_names)
+            chs_red_green  =  ServiceWidgets.SetColorChannel.getChannels(raw.channel_names)
         else:
-            ch_red_green  =  np.load(analysis_folder + '/ch_red_green.npy')
-        red    =  raw.get_image_data("TZXY", C=ch_red_green[0])
-        green  =  raw.get_image_data("TZXY", C=ch_red_green[1])
+            chs_red_green  =  np.load(analysis_folder + '/chs_red_green.npy')
+        red    =  raw.get_image_data("TZXY", C=chs_red_green[0])
+        green  =  raw.get_image_data("TZXY", C=chs_red_green[1])
 
         tlen, zlen, xlen, ylen  =  raw.dims.T, raw.dims.Z, raw.dims.X, raw.dims.Y
 
@@ -69,8 +69,8 @@ class LoadRawDataCzi:
         if len(fnames) > 1:
             for fname in fnames[1:]:
                 raw_bff    =  AICSImage(fname)  # read and load file
-                red_bff    =  raw_bff.get_image_data("TZXY", C=ch_red_green[0])
-                green_bff  =  raw_bff.get_image_data("TZXY", C=ch_red_green[1])
+                red_bff    =  raw_bff.get_image_data("TZXY", C=chs_red_green[0])
+                green_bff  =  raw_bff.get_image_data("TZXY", C=chs_red_green[1])
 
                 tlen           =  raw_bff.dims.T
                 red            =  np.concatenate((red, red_bff), axis=0)
@@ -97,4 +97,4 @@ class LoadRawDataCzi:
         self.red_mip          =  red_mip
         self.green            =  green
         self.green_mip        =  green_mip
-        self.ch_red_green     =  ch_red_green
+        self.chs_red_green    =  chs_red_green

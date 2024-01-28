@@ -32,4 +32,4 @@ class RawDataLoader:
         self.pix_size_xy      =  raw_data.pix_size_xy
         self.pix_size_z       =  raw_data.pix_size_z
         self.time_step_value  =  raw_data.time_step_value
-        self.ch_red_green     =  np.load(analysis_folder + '/ch_red_nucs.npy')
+        self.chs_red_green    =  np.load(analysis_folder + '/chs_red_green.npy')

@@ -285,3 +285,70 @@ class SetColorChannel(QtWidgets.QDialog):
         result  =  dialog.exec_()
         flag    =  dialog.params()
         return flag
+
+
+class InputScalar(QtWidgets.QDialog):
+    """Dialog to input a scalar number."""
+    def __init__(self, text_list, parent=None):
+        super().__init__(parent)
+
+        text_label  =  text_list[0]
+        text_btn1   =  text_list[1]
+        text_btn2   =  text_list[2]
+        text_tip1   =  text_list[3]
+        text_tip2   =  text_list[4]
+        text_title  =  text_list[5]
+
+        ksf_h  =  np.load('keys_size_factor.npy')[0]
+        ksf_w  =  np.load('keys_size_factor.npy')[1]
+
+        input_val_lbl  =  QtWidgets.QLabel(text_label, self)
+        input_val_lbl.setFixedSize(int(ksf_h * 10 * len(text_label)), int(ksf_w * 60))
+
+        input_val_edt  =  QtWidgets.QLineEdit(text_btn1, self)
+        input_val_edt.setToolTip(text_tip1)
+        input_val_edt.setFixedSize(int(ksf_h * 35), int(ksf_w * 25))
+        input_val_edt.textChanged[str].connect(self.input_var)
+
+        input_val_box  =  QtWidgets.QHBoxLayout()
+        input_val_box.addWidget(input_val_lbl)
+        input_val_box.addStretch()
+        input_val_box.addWidget(input_val_edt)
+
+        insert_btn  =  QtWidgets.QPushButton(text_btn2, self)
+        insert_btn.setToolTip(text_tip2)
+        insert_btn.setFixedSize(int(ksf_h * 50), int(ksf_w * 25))
+        insert_btn.clicked.connect(self.insert)
+
+        insert_box  =  QtWidgets.QHBoxLayout()
+        insert_box.addStretch()
+        insert_box.addWidget(insert_btn)
+
+        layout  =  QtWidgets.QVBoxLayout()
+        layout.addLayout(input_val_box)
+        layout.addLayout(insert_box)
+
+        self.setWindowModality(Qt.ApplicationModal)
+        self.setLayout(layout)
+        self.setGeometry(300, 300, int(ksf_h * 200), int(ksf_w * 25))
+        self.setWindowTitle(text_title)
+
+    def input_var(self, text):
+        """Choose flag first."""
+        self.input_value  =  float(text)
+
+    def insert(self):
+        """Choose flag second."""
+        self.close()
+
+    def params(self):
+        """Function to send choice."""
+        return self.input_value
+
+    @staticmethod
+    def getScalar(parent=None):
+        """Send choice."""
+        dialog  =  InputScalar(parent)
+        result  =  dialog.exec_()
+        flag    =  dialog.params()
+        return flag
