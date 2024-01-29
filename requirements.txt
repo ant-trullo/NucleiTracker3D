@@ -8,5 +8,5 @@ PyQt5==5.15.7
 PyQt5_sip==12.11.0
 pyqtgraph==0.13.3
 scipy==1.11.4
-skimage==0.22.0
+scikit-image==0.22.0
 XlsxWriter==3.1.9
